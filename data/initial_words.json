@@ -1,0 +1,1040 @@
+[
+    {
+        "english": "abandon",
+        "turkish": "terk etmek, vazgeçmek",
+        "type": "verb",
+        "synonyms": [
+            "leave",
+            "desert",
+            "forsake"
+        ],
+        "antonyms": [
+            "keep",
+            "maintain"
+        ],
+        "exampleSentence": "The sailors had to abandon the sinking ship.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "abolish",
+        "turkish": "kaldırmak, feshetmek",
+        "type": "verb",
+        "synonyms": [
+            "eliminate",
+            "annul",
+            "revoke"
+        ],
+        "antonyms": [
+            "establish",
+            "create"
+        ],
+        "exampleSentence": "The government decided to abolish the outdated law.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil"
+        ]
+    },
+    {
+        "english": "abundant",
+        "turkish": "bol, bereketli",
+        "type": "adjective",
+        "synonyms": [
+            "plentiful",
+            "ample",
+            "copious"
+        ],
+        "antonyms": [
+            "scarce",
+            "rare"
+        ],
+        "exampleSentence": "The region is known for its abundant natural resources.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "accelerate",
+        "turkish": "hızlandırmak",
+        "type": "verb",
+        "synonyms": [
+            "speed up",
+            "quicken",
+            "hasten"
+        ],
+        "antonyms": [
+            "decelerate",
+            "slow down"
+        ],
+        "exampleSentence": "The company plans to accelerate its expansion into new markets.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "accessible",
+        "turkish": "erişilebilir, ulaşılabilir",
+        "type": "adjective",
+        "synonyms": [
+            "available",
+            "obtainable",
+            "reachable"
+        ],
+        "antonyms": [
+            "inaccessible",
+            "unavailable"
+        ],
+        "exampleSentence": "The new building is fully accessible to people with disabilities.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "ielts"
+        ]
+    },
+    {
+        "english": "acknowledge",
+        "turkish": "kabul etmek, onaylamak",
+        "type": "verb",
+        "synonyms": [
+            "admit",
+            "recognize",
+            "accept"
+        ],
+        "antonyms": [
+            "deny",
+            "reject"
+        ],
+        "exampleSentence": "The scientist acknowledged the limitations of his research.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "acquire",
+        "turkish": "edinmek, elde etmek",
+        "type": "verb",
+        "synonyms": [
+            "obtain",
+            "gain",
+            "get"
+        ],
+        "antonyms": [
+            "lose",
+            "forfeit"
+        ],
+        "exampleSentence": "Students need to acquire new skills for the modern workplace.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "adequate",
+        "turkish": "yeterli, uygun",
+        "type": "adjective",
+        "synonyms": [
+            "sufficient",
+            "enough",
+            "satisfactory"
+        ],
+        "antonyms": [
+            "inadequate",
+            "insufficient"
+        ],
+        "exampleSentence": "The funding was not adequate to complete the project.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "ielts"
+        ]
+    },
+    {
+        "english": "advocate",
+        "turkish": "savunmak, destekçi",
+        "type": "verb",
+        "synonyms": [
+            "support",
+            "promote",
+            "champion"
+        ],
+        "antonyms": [
+            "oppose",
+            "criticize"
+        ],
+        "exampleSentence": "Many scientists advocate for stronger environmental policies.",
+        "difficulty": 4,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "allocate",
+        "turkish": "tahsis etmek, ayırmak",
+        "type": "verb",
+        "synonyms": [
+            "assign",
+            "distribute",
+            "allot"
+        ],
+        "antonyms": [
+            "withhold",
+            "retain"
+        ],
+        "exampleSentence": "The government will allocate more funds to education.",
+        "difficulty": 4,
+        "examTypes": [
+            "yds",
+            "yokdil"
+        ]
+    },
+    {
+        "english": "ambiguous",
+        "turkish": "belirsiz, muğlak",
+        "type": "adjective",
+        "synonyms": [
+            "unclear",
+            "vague",
+            "equivocal"
+        ],
+        "antonyms": [
+            "clear",
+            "unambiguous"
+        ],
+        "exampleSentence": "The contract contains several ambiguous clauses.",
+        "difficulty": 4,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "anticipate",
+        "turkish": "öngörmek, tahmin etmek",
+        "type": "verb",
+        "synonyms": [
+            "expect",
+            "predict",
+            "foresee"
+        ],
+        "antonyms": [
+            "doubt",
+            "question"
+        ],
+        "exampleSentence": "Analysts anticipate a significant increase in sales.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "apparent",
+        "turkish": "görünür, açık",
+        "type": "adjective",
+        "synonyms": [
+            "obvious",
+            "evident",
+            "clear"
+        ],
+        "antonyms": [
+            "hidden",
+            "obscure"
+        ],
+        "exampleSentence": "The apparent cause of the accident was driver negligence.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil"
+        ]
+    },
+    {
+        "english": "arbitrary",
+        "turkish": "keyfi, rastgele",
+        "type": "adjective",
+        "synonyms": [
+            "random",
+            "capricious",
+            "whimsical"
+        ],
+        "antonyms": [
+            "systematic",
+            "deliberate"
+        ],
+        "exampleSentence": "The decision seemed completely arbitrary and unfair.",
+        "difficulty": 4,
+        "examTypes": [
+            "yds",
+            "yokdil"
+        ]
+    },
+    {
+        "english": "assert",
+        "turkish": "iddia etmek, ileri sürmek",
+        "type": "verb",
+        "synonyms": [
+            "claim",
+            "declare",
+            "maintain"
+        ],
+        "antonyms": [
+            "deny",
+            "refute"
+        ],
+        "exampleSentence": "The lawyer asserted that his client was innocent.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "attribute",
+        "turkish": "atfetmek, özellik",
+        "type": "verb",
+        "synonyms": [
+            "ascribe",
+            "assign",
+            "credit"
+        ],
+        "antonyms": [
+            "dissociate",
+            "disconnect"
+        ],
+        "exampleSentence": "Scientists attribute the warming trend to greenhouse gases.",
+        "difficulty": 4,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "autonomous",
+        "turkish": "özerk, bağımsız",
+        "type": "adjective",
+        "synonyms": [
+            "independent",
+            "self-governing",
+            "sovereign"
+        ],
+        "antonyms": [
+            "dependent",
+            "controlled"
+        ],
+        "exampleSentence": "The region gained autonomous status after the referendum.",
+        "difficulty": 4,
+        "examTypes": [
+            "yds",
+            "yokdil"
+        ]
+    },
+    {
+        "english": "beneficial",
+        "turkish": "faydalı, yararlı",
+        "type": "adjective",
+        "synonyms": [
+            "advantageous",
+            "helpful",
+            "useful"
+        ],
+        "antonyms": [
+            "harmful",
+            "detrimental"
+        ],
+        "exampleSentence": "Regular exercise is beneficial for mental health.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "coherent",
+        "turkish": "tutarlı, bağlantılı",
+        "type": "adjective",
+        "synonyms": [
+            "logical",
+            "consistent",
+            "organized"
+        ],
+        "antonyms": [
+            "incoherent",
+            "disorganized"
+        ],
+        "exampleSentence": "The essay lacked a coherent argument.",
+        "difficulty": 4,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "comprehensive",
+        "turkish": "kapsamlı, geniş",
+        "type": "adjective",
+        "synonyms": [
+            "complete",
+            "thorough",
+            "extensive"
+        ],
+        "antonyms": [
+            "limited",
+            "partial"
+        ],
+        "exampleSentence": "The report provides a comprehensive analysis of the market.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "compulsory",
+        "turkish": "zorunlu, mecburi",
+        "type": "adjective",
+        "synonyms": [
+            "mandatory",
+            "obligatory",
+            "required"
+        ],
+        "antonyms": [
+            "optional",
+            "voluntary"
+        ],
+        "exampleSentence": "Military service is compulsory in some countries.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "ielts"
+        ]
+    },
+    {
+        "english": "conceive",
+        "turkish": "tasarlamak, kavramak",
+        "type": "verb",
+        "synonyms": [
+            "imagine",
+            "devise",
+            "formulate"
+        ],
+        "antonyms": [
+            "destroy",
+            "ruin"
+        ],
+        "exampleSentence": "It is difficult to conceive how the ancient engineers built the pyramids.",
+        "difficulty": 4,
+        "examTypes": [
+            "yds",
+            "yokdil"
+        ]
+    },
+    {
+        "english": "confer",
+        "turkish": "vermek, görüşmek",
+        "type": "verb",
+        "synonyms": [
+            "grant",
+            "bestow",
+            "consult"
+        ],
+        "antonyms": [
+            "withhold",
+            "refuse"
+        ],
+        "exampleSentence": "The university will confer honorary degrees at the ceremony.",
+        "difficulty": 4,
+        "examTypes": [
+            "yds",
+            "yokdil"
+        ]
+    },
+    {
+        "english": "consensus",
+        "turkish": "uzlaşma, fikir birliği",
+        "type": "noun",
+        "synonyms": [
+            "agreement",
+            "accord",
+            "harmony"
+        ],
+        "antonyms": [
+            "disagreement",
+            "discord"
+        ],
+        "exampleSentence": "There was a general consensus among the scientists.",
+        "difficulty": 4,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "consequence",
+        "turkish": "sonuç, önem",
+        "type": "noun",
+        "synonyms": [
+            "result",
+            "outcome",
+            "effect"
+        ],
+        "antonyms": [
+            "cause",
+            "origin"
+        ],
+        "exampleSentence": "The decision had far-reaching consequences for the industry.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "constraint",
+        "turkish": "kısıtlama, sınırlama",
+        "type": "noun",
+        "synonyms": [
+            "restriction",
+            "limitation",
+            "restraint"
+        ],
+        "antonyms": [
+            "freedom",
+            "liberty"
+        ],
+        "exampleSentence": "Budget constraints forced the company to cut costs.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "contemporary",
+        "turkish": "çağdaş, güncel",
+        "type": "adjective",
+        "synonyms": [
+            "modern",
+            "current",
+            "present-day"
+        ],
+        "antonyms": [
+            "ancient",
+            "outdated"
+        ],
+        "exampleSentence": "The museum features contemporary art from around the world.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "controversy",
+        "turkish": "tartışma, anlaşmazlık",
+        "type": "noun",
+        "synonyms": [
+            "dispute",
+            "debate",
+            "argument"
+        ],
+        "antonyms": [
+            "agreement",
+            "consensus"
+        ],
+        "exampleSentence": "The new policy has caused considerable controversy.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "crucial",
+        "turkish": "kritik, hayati",
+        "type": "adjective",
+        "synonyms": [
+            "vital",
+            "essential",
+            "critical"
+        ],
+        "antonyms": [
+            "unimportant",
+            "trivial"
+        ],
+        "exampleSentence": "The next few months will be crucial for the company's future.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "decline",
+        "turkish": "azalmak, reddetmek",
+        "type": "verb",
+        "synonyms": [
+            "decrease",
+            "refuse",
+            "reject"
+        ],
+        "antonyms": [
+            "increase",
+            "accept"
+        ],
+        "exampleSentence": "The population has been declining steadily for decades.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "derive",
+        "turkish": "türetmek, elde etmek",
+        "type": "verb",
+        "synonyms": [
+            "obtain",
+            "extract",
+            "gain"
+        ],
+        "antonyms": [
+            "give",
+            "provide"
+        ],
+        "exampleSentence": "Many English words derive from Latin.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "deteriorate",
+        "turkish": "kötüleşmek, bozulmak",
+        "type": "verb",
+        "synonyms": [
+            "worsen",
+            "decline",
+            "degrade"
+        ],
+        "antonyms": [
+            "improve",
+            "enhance"
+        ],
+        "exampleSentence": "The patient's condition continued to deteriorate.",
+        "difficulty": 4,
+        "examTypes": [
+            "yds",
+            "yokdil"
+        ]
+    },
+    {
+        "english": "diminish",
+        "turkish": "azaltmak, küçültmek",
+        "type": "verb",
+        "synonyms": [
+            "reduce",
+            "decrease",
+            "lessen"
+        ],
+        "antonyms": [
+            "increase",
+            "enhance"
+        ],
+        "exampleSentence": "The new treatment will significantly diminish the symptoms.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "distinct",
+        "turkish": "belirgin, farklı",
+        "type": "adjective",
+        "synonyms": [
+            "clear",
+            "different",
+            "separate"
+        ],
+        "antonyms": [
+            "similar",
+            "vague"
+        ],
+        "exampleSentence": "There are distinct differences between the two theories.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "diverse",
+        "turkish": "çeşitli, farklı",
+        "type": "adjective",
+        "synonyms": [
+            "varied",
+            "different",
+            "assorted"
+        ],
+        "antonyms": [
+            "similar",
+            "uniform"
+        ],
+        "exampleSentence": "The city has a diverse population from many backgrounds.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "elaborate",
+        "turkish": "ayrıntılı, detaylandırmak",
+        "type": "adjective",
+        "synonyms": [
+            "detailed",
+            "complex",
+            "intricate"
+        ],
+        "antonyms": [
+            "simple",
+            "plain"
+        ],
+        "exampleSentence": "The architect designed an elaborate entrance for the building.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "emerge",
+        "turkish": "ortaya çıkmak, belirmek",
+        "type": "verb",
+        "synonyms": [
+            "appear",
+            "arise",
+            "surface"
+        ],
+        "antonyms": [
+            "disappear",
+            "vanish"
+        ],
+        "exampleSentence": "New evidence began to emerge during the investigation.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "emphasize",
+        "turkish": "vurgulamak, önem vermek",
+        "type": "verb",
+        "synonyms": [
+            "stress",
+            "highlight",
+            "underscore"
+        ],
+        "antonyms": [
+            "downplay",
+            "minimize"
+        ],
+        "exampleSentence": "The report emphasizes the need for immediate action.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "encounter",
+        "turkish": "karşılaşmak, rastlamak",
+        "type": "verb",
+        "synonyms": [
+            "meet",
+            "face",
+            "experience"
+        ],
+        "antonyms": [
+            "avoid",
+            "evade"
+        ],
+        "exampleSentence": "Travelers may encounter delays at the border.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "enhance",
+        "turkish": "geliştirmek, artırmak",
+        "type": "verb",
+        "synonyms": [
+            "improve",
+            "increase",
+            "strengthen"
+        ],
+        "antonyms": [
+            "diminish",
+            "weaken"
+        ],
+        "exampleSentence": "The new software will enhance productivity.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "enormous",
+        "turkish": "devasa, çok büyük",
+        "type": "adjective",
+        "synonyms": [
+            "huge",
+            "immense",
+            "vast"
+        ],
+        "antonyms": [
+            "tiny",
+            "small"
+        ],
+        "exampleSentence": "The project requires an enormous amount of funding.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "establish",
+        "turkish": "kurmak, oluşturmak",
+        "type": "verb",
+        "synonyms": [
+            "create",
+            "found",
+            "set up"
+        ],
+        "antonyms": [
+            "abolish",
+            "destroy"
+        ],
+        "exampleSentence": "The company was established in 1990.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "evident",
+        "turkish": "açık, belli",
+        "type": "adjective",
+        "synonyms": [
+            "obvious",
+            "clear",
+            "apparent"
+        ],
+        "antonyms": [
+            "unclear",
+            "hidden"
+        ],
+        "exampleSentence": "It was evident that the experiment had failed.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "fundamental",
+        "turkish": "temel, esas",
+        "type": "adjective",
+        "synonyms": [
+            "basic",
+            "essential",
+            "primary"
+        ],
+        "antonyms": [
+            "secondary",
+            "minor"
+        ],
+        "exampleSentence": "Understanding grammar is fundamental to learning a language.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "hypothesis",
+        "turkish": "hipotez, varsayım",
+        "type": "noun",
+        "synonyms": [
+            "theory",
+            "assumption",
+            "proposition"
+        ],
+        "antonyms": [
+            "fact",
+            "certainty"
+        ],
+        "exampleSentence": "The scientist proposed a new hypothesis to explain the phenomenon.",
+        "difficulty": 4,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "implement",
+        "turkish": "uygulamak, hayata geçirmek",
+        "type": "verb",
+        "synonyms": [
+            "execute",
+            "carry out",
+            "apply"
+        ],
+        "antonyms": [
+            "ignore",
+            "neglect"
+        ],
+        "exampleSentence": "The government will implement new policies next year.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "inevitable",
+        "turkish": "kaçınılmaz, önlenemez",
+        "type": "adjective",
+        "synonyms": [
+            "unavoidable",
+            "certain",
+            "inescapable"
+        ],
+        "antonyms": [
+            "avoidable",
+            "preventable"
+        ],
+        "exampleSentence": "Change is inevitable in any organization.",
+        "difficulty": 3,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl"
+        ]
+    },
+    {
+        "english": "phenomenon",
+        "turkish": "fenomen, olgu",
+        "type": "noun",
+        "synonyms": [
+            "occurrence",
+            "event",
+            "fact"
+        ],
+        "antonyms": [],
+        "exampleSentence": "Global warming is a well-documented phenomenon.",
+        "difficulty": 4,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    },
+    {
+        "english": "significant",
+        "turkish": "önemli, anlamlı",
+        "type": "adjective",
+        "synonyms": [
+            "important",
+            "notable",
+            "meaningful"
+        ],
+        "antonyms": [
+            "insignificant",
+            "trivial"
+        ],
+        "exampleSentence": "The research made a significant contribution to the field.",
+        "difficulty": 2,
+        "examTypes": [
+            "yds",
+            "yokdil",
+            "toefl",
+            "ielts"
+        ]
+    }
+]
