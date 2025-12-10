@@ -12,8 +12,11 @@ st.set_page_config(
     layout="wide"
 )
 
-# Imports
-from components.auth import render_user_sidebar, is_logged_in, get_current_user
+# Auth check - Login Gate
+import components.auth as auth
+auth.check_auth()
+
+# Imports (sadece giriş yapılmışsa)
 from components.badges import (
     render_badges_grid, 
     render_badge_showcase, 
@@ -28,8 +31,7 @@ from utils.helpers import init_session_state
 # Session state başlat
 init_session_state()
 
-# Sidebar
-render_user_sidebar()
+user = auth.get_current_user()
 
 # CSS
 st.markdown(get_badge_styles(), unsafe_allow_html=True)
@@ -40,19 +42,16 @@ st.markdown("En aktif kullanıcılar ve rozetler")
 
 st.markdown("---")
 
-# Kullanıcı profili (giriş yapmışsa)
-if is_logged_in():
-    user = get_current_user()
-    
-    with st.expander("👤 Profilim", expanded=True):
-        render_user_profile_card(user)
-        
-        st.markdown("---")
-        
-        st.subheader("🏅 Rozetlerim")
-        render_badge_showcase(user.get("badges", []))
+# Kullanıcı profili
+with st.expander("👤 Profilim", expanded=True):
+    render_user_profile_card(user)
     
     st.markdown("---")
+    
+    st.subheader("🏅 Rozetlerim")
+    render_badge_showcase(user.get("badges", []))
+
+st.markdown("---")
 
 # Liderlik tablosu
 st.subheader("📊 Sıralama")
@@ -93,7 +92,7 @@ else:
     st.markdown("---")
     
     # Kullanıcı listesi
-    current_user_id = get_current_user()["id"] if is_logged_in() else None
+    current_user_id = user.get("id") if user else None
     
     for rank, leader in enumerate(leaders, 1):
         is_current = leader.get("id") == current_user_id
@@ -126,8 +125,8 @@ for cat_key, cat_info in badge_categories.items():
             with cols[i]:
                 # Kullanıcının bu rozeti var mı kontrol et
                 has_badge = False
-                if is_logged_in():
-                    user_badges = get_current_user().get("badges", [])
+                if auth.is_authenticated():
+                    user_badges = auth.get_current_user().get("badges", [])
                     has_badge = badge_id in user_badges
                 
                 bg_style = "background: rgba(102, 126, 234, 0.2);" if has_badge else "background: rgba(255,255,255,0.05); opacity: 0.6;"

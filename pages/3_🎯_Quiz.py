@@ -12,8 +12,11 @@ st.set_page_config(
     layout="wide"
 )
 
-# Imports
-from components.auth import render_user_sidebar, require_auth, get_current_user
+# Auth check - Login Gate
+import components.auth as auth
+auth.check_auth()
+
+# Imports (sadece giriş yapılmışsa)
 from components.quiz_card import (
     init_quiz_state, 
     render_quiz_setup, 
@@ -30,18 +33,11 @@ from utils.helpers import init_session_state, calculate_quiz_score
 init_session_state()
 init_quiz_state()
 
-# Sidebar
-render_user_sidebar()
+user = auth.get_current_user()
 
 # Ana içerik
 st.title("🎯 Quiz")
 st.markdown("Kelime bilginizi test edin!")
-
-# Auth kontrolü
-if not require_auth("Quiz çözmek için giriş yapmalısınız."):
-    st.stop()
-
-user = get_current_user()
 
 st.markdown("---")
 

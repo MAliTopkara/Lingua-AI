@@ -150,46 +150,40 @@ def render_flashcard(word: Dict[str, Any], show_example: bool = True, show_ai_bu
     difficulty = word.get("difficulty", 3)
     stars = "⭐" * difficulty + "☆" * (5 - difficulty)
     
-    # Sınav türleri
+    # Ana kart HTML - sadece temel bilgiler, iç içe HTML yok
+    st.markdown(f'''
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; padding: 30px; color: white; box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3); margin: 20px 0;">
+        <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">{word.get('english', '')}</div>
+        <div style="font-size: 24px; font-weight: 500; margin-bottom: 20px; padding: 12px 20px; background: rgba(255,255,255,0.15); border-radius: 12px; display: inline-block;">{word.get('turkish', '')}</div>
+    </div>
+    ''', unsafe_allow_html=True)
+    
+    # Bilgi etiketleri - Streamlit columns ile
     exam_types = word.get("examTypes", [])
-    exam_badges_html = ""
+    synonyms = word.get("synonyms", [])
+    
+    # Etiketler satırı
+    tags = []
+    tags.append(f"{type_info['abbr']} {type_info['name']}")
+    tags.append(stars)
     for et in exam_types:
         if et in EXAM_TYPES:
-            exam_badges_html += f'<span style="background: rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 20px; font-size: 13px; margin-left: 8px;">{EXAM_TYPES[et]["icon"]} {EXAM_TYPES[et]["name"]}</span>'
+            tags.append(f"{EXAM_TYPES[et]['icon']} {EXAM_TYPES[et]['name']}")
+    
+    # Etiketleri göster
+    cols = st.columns(len(tags))
+    for i, tag in enumerate(tags):
+        with cols[i]:
+            st.markdown(f"**{tag}**")
     
     # Eş anlamlılar
-    synonyms = word.get("synonyms", [])
-    synonyms_text = ", ".join(synonyms) if synonyms else ""
-    synonyms_html = f'<div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.2);">📎 Eş anlamlılar: {synonyms_text}</div>' if synonyms_text else ''
-    
-    # Kart HTML - inline styles
-    card_html = f'''
-    <div style="perspective: 1000px; margin: 20px 0;">
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; padding: 30px; color: white; box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);">
-            <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">{word.get('english', '')}</div>
-            <div style="font-size: 24px; font-weight: 500; margin-bottom: 20px; padding: 12px 20px; background: rgba(255,255,255,0.15); border-radius: 12px; display: inline-block;">{word.get('turkish', '')}</div>
-            
-            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
-                <span style="background: {type_info['color']}40; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;">{type_info['abbr']} {type_info['name']}</span>
-                <span style="background: rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 20px; font-size: 13px; color: #ffd700;">{stars}</span>
-                {exam_badges_html}
-            </div>
-            
-            {synonyms_html}
-        </div>
-    </div>
-    '''
-    
-    st.markdown(card_html, unsafe_allow_html=True)
+    if synonyms:
+        st.markdown(f"📎 **Eş anlamlılar:** {', '.join(synonyms)}")
     
     # Örnek cümle
     example = word.get("exampleSentence", "")
     if show_example and example:
-        st.markdown(f'''
-        <div style="margin-top: 16px; padding: 16px; background: rgba(0,0,0,0.15); border-radius: 12px; font-style: italic; line-height: 1.5; color: #e0e0e0;">
-            💡 <strong>Örnek:</strong> {example}
-        </div>
-        ''', unsafe_allow_html=True)
+        st.info(f"💡 **Örnek:** {example}")
     
     # AI Cümle butonu
     if show_ai_button:

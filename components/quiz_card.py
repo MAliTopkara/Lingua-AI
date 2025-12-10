@@ -355,22 +355,22 @@ def render_quiz_result():
         grade_color = "#e74c3c"
     
     st.markdown(f"""
-    <div class="quiz-result">
-        <div class="quiz-score">%{percentage:.0f}</div>
-        <div class="quiz-grade" style="color: {grade_color};">{grade}</div>
+    <div style="text-align: center; padding: 40px;">
+        <div style="font-size: 72px; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">%{percentage:.0f}</div>
+        <div style="font-size: 24px; margin-top: 10px; color: {grade_color};">{grade}</div>
         
-        <div class="quiz-stats">
-            <div class="quiz-stat">
-                <div class="quiz-stat-value">{score}</div>
-                <div class="quiz-stat-label">Doğru</div>
+        <div style="display: flex; justify-content: center; gap: 40px; margin-top: 30px;">
+            <div style="text-align: center;">
+                <div style="font-size: 28px; font-weight: 600; color: #667eea;">{score}</div>
+                <div style="font-size: 12px; color: #a0aec0; text-transform: uppercase; letter-spacing: 1px;">Doğru</div>
             </div>
-            <div class="quiz-stat">
-                <div class="quiz-stat-value">{total - score}</div>
-                <div class="quiz-stat-label">Yanlış</div>
+            <div style="text-align: center;">
+                <div style="font-size: 28px; font-weight: 600; color: #667eea;">{total - score}</div>
+                <div style="font-size: 12px; color: #a0aec0; text-transform: uppercase; letter-spacing: 1px;">Yanlış</div>
             </div>
-            <div class="quiz-stat">
-                <div class="quiz-stat-value">{total}</div>
-                <div class="quiz-stat-label">Toplam</div>
+            <div style="text-align: center;">
+                <div style="font-size: 28px; font-weight: 600; color: #667eea;">{total}</div>
+                <div style="font-size: 12px; color: #a0aec0; text-transform: uppercase; letter-spacing: 1px;">Toplam</div>
             </div>
         </div>
     </div>

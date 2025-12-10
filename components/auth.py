@@ -1,6 +1,6 @@
 """
 Authentication Component
-Google Sign-In simulation and user management for Streamlit
+Simple Firebase Email/Password Login Gate Pattern
 """
 
 import streamlit as st
@@ -9,24 +9,316 @@ import hashlib
 import time
 
 
-def init_auth():
+def _init_auth_state():
     """Auth session state'lerini başlat"""
+    if "authenticated" not in st.session_state:
+        st.session_state.authenticated = False
     if "user" not in st.session_state:
         st.session_state.user = None
-    if "is_authenticated" not in st.session_state:
-        st.session_state.is_authenticated = False
     if "is_admin" not in st.session_state:
         st.session_state.is_admin = False
 
 
-def get_current_user() -> Optional[Dict[str, Any]]:
-    """Oturum açmış kullanıcıyı döndür"""
-    return st.session_state.get("user")
+def _render_login_form():
+    """Şık login/register formu render et"""
+    st.markdown("""
+    <style>
+    .login-container {
+        max-width: 450px;
+        margin: 50px auto;
+        padding: 40px;
+        background: linear-gradient(135deg, #1a1f2e 0%, #2d3748 100%);
+        border-radius: 20px;
+        border: 1px solid rgba(102, 126, 234, 0.3);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    .login-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .login-title {
+        font-size: 32px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 8px;
+    }
+    .login-subtitle {
+        color: #a0aec0;
+        font-size: 14px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # Ortalanmış container
+    col1, col2, col3 = st.columns([1, 2, 1])
+    
+    with col2:
+        st.markdown("""
+        <div class="login-header">
+            <div class="login-title">🎓 Lingua-AI</div>
+            <div class="login-subtitle">İngilizce Sınav Hazırlık Platformu</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Sekmeler
+        tab_login, tab_register = st.tabs(["🔐 Giriş Yap", "📝 Kayıt Ol"])
+        
+        # ============ GİRİŞ YAP SEKMESİ ============
+        with tab_login:
+            with st.form("login_form", clear_on_submit=False):
+                st.markdown("##### Hesabınıza giriş yapın")
+                
+                login_email = st.text_input(
+                    "📧 E-posta",
+                    placeholder="ornek@gmail.com",
+                    key="login_email"
+                )
+                
+                login_password = st.text_input(
+                    "🔒 Şifre",
+                    type="password",
+                    placeholder="••••••••",
+                    key="login_password"
+                )
+                
+                st.markdown("")
+                
+                login_submitted = st.form_submit_button(
+                    "🚀 Giriş Yap",
+                    use_container_width=True,
+                    type="primary"
+                )
+                
+                if login_submitted:
+                    if _process_login(login_email, login_password):
+                        st.rerun()
+        
+        # ============ KAYIT OL SEKMESİ ============
+        with tab_register:
+            with st.form("register_form", clear_on_submit=False):
+                st.markdown("##### Yeni hesap oluşturun")
+                
+                reg_name = st.text_input(
+                    "👤 Ad Soyad",
+                    placeholder="Ad Soyad",
+                    key="reg_name"
+                )
+                
+                reg_email = st.text_input(
+                    "📧 E-posta",
+                    placeholder="ornek@gmail.com",
+                    key="reg_email"
+                )
+                
+                reg_password = st.text_input(
+                    "🔒 Şifre",
+                    type="password",
+                    placeholder="En az 6 karakter",
+                    key="reg_password"
+                )
+                
+                reg_password2 = st.text_input(
+                    "🔒 Şifre Tekrar",
+                    type="password",
+                    placeholder="Şifreyi tekrar girin",
+                    key="reg_password2"
+                )
+                
+                st.markdown("")
+                
+                reg_submitted = st.form_submit_button(
+                    "📝 Kayıt Ol",
+                    use_container_width=True,
+                    type="primary"
+                )
+                
+                if reg_submitted:
+                    _process_register(reg_name, reg_email, reg_password, reg_password2)
+        
+        st.markdown("---")
+        st.caption("🔒 Şifreniz güvenli şekilde şifrelenerek saklanır.")
 
 
-def is_logged_in() -> bool:
-    """Kullanıcı giriş yapmış mı?"""
-    return st.session_state.get("is_authenticated", False)
+def _process_login(email: str, password: str) -> bool:
+    """Login işlemini gerçekleştir"""
+    from services.firebase_service import authenticate_user, is_user_admin
+    from services.gamification_service import update_user_streak
+    
+    # Validasyon
+    if not email or not password:
+        st.error("❌ E-posta ve şifre gereklidir.")
+        return False
+    
+    email = email.strip().lower()
+    
+    if "@" not in email or "." not in email.split("@")[-1]:
+        st.error("❌ Geçerli bir e-posta adresi girin.")
+        return False
+    
+    # Firebase ile doğrula
+    result = authenticate_user(email, password)
+    
+    if not result["success"]:
+        st.error(f"❌ {result['error']}")
+        return False
+    
+    user_data = result["user"]
+    
+    # Session'a kaydet
+    st.session_state.authenticated = True
+    st.session_state.user = user_data
+    st.session_state.is_admin = is_user_admin(email)
+    
+    # Streak güncelle
+    try:
+        update_user_streak(user_data["id"])
+    except:
+        pass
+    
+    st.success("✅ Giriş başarılı!")
+    time.sleep(0.3)
+    return True
+
+
+def _process_register(name: str, email: str, password: str, password2: str) -> bool:
+    """Kayıt işlemini gerçekleştir"""
+    from services.firebase_service import signup_user
+    
+    # Validasyon
+    if not name or not email or not password or not password2:
+        st.error("❌ Tüm alanları doldurun.")
+        return False
+    
+    name = name.strip()
+    email = email.strip().lower()
+    
+    if len(name) < 2:
+        st.error("❌ İsim en az 2 karakter olmalı.")
+        return False
+    
+    if "@" not in email or "." not in email.split("@")[-1]:
+        st.error("❌ Geçerli bir e-posta adresi girin.")
+        return False
+    
+    if len(password) < 6:
+        st.error("❌ Şifre en az 6 karakter olmalı.")
+        return False
+    
+    if password != password2:
+        st.error("❌ Şifreler eşleşmiyor.")
+        return False
+    
+    # Firebase'e kaydet
+    result = signup_user(email, password, name)
+    
+    if not result["success"]:
+        st.error(f"❌ {result['error']}")
+        return False
+    
+    st.success("✅ Kayıt başarılı! Şimdi 'Giriş Yap' sekmesinden giriş yapabilirsiniz.")
+    st.balloons()
+    return True
+
+
+def _render_user_sidebar():
+    """Sidebar'da kullanıcı bilgilerini göster"""
+    user = st.session_state.get("user", {})
+    
+    st.sidebar.markdown("---")
+    
+    # Kullanıcı kartı
+    col1, col2 = st.sidebar.columns([1, 3])
+    
+    with col1:
+        photo_url = user.get("photoURL", "")
+        if photo_url:
+            st.image(photo_url, width=50)
+    
+    with col2:
+        st.markdown(f"**{user.get('displayName', 'Kullanıcı')}**")
+        role = "👑 Admin" if st.session_state.get("is_admin") else "👤 Kullanıcı"
+        st.caption(role)
+    
+    # İstatistikler
+    st.sidebar.markdown("---")
+    
+    col1, col2 = st.sidebar.columns(2)
+    with col1:
+        st.metric("🔥 Streak", user.get("currentStreak", 0))
+    with col2:
+        st.metric("⭐ Puan", user.get("points", 0))
+    
+    col1, col2 = st.sidebar.columns(2)
+    with col1:
+        st.metric("📚 Öğrenilen", user.get("wordsLearned", 0))
+    with col2:
+        st.metric("✍️ Eklenen", user.get("wordsContributed", 0))
+    
+    # Rozetler
+    badges = user.get("badges", [])
+    if badges:
+        from utils.constants import BADGES
+        badge_emojis = " ".join([BADGES.get(b, {}).get("emoji", "") for b in badges])
+        if badge_emojis.strip():
+            st.sidebar.markdown(f"**Rozetler:** {badge_emojis}")
+    
+    st.sidebar.markdown("---")
+    
+    # Çıkış butonu
+    if st.sidebar.button("🚪 Çıkış Yap", use_container_width=True):
+        logout()
+        st.rerun()
+
+
+# Public alias for backward compatibility
+def render_user_sidebar(key: str = None):
+    """
+    Sidebar'da kullanıcı bilgilerini göster (public alias)
+    Eski kodlarla uyumluluk için
+    """
+    _render_user_sidebar()
+
+
+def logout():
+    """Kullanıcı çıkışı - session temizle"""
+    st.session_state.authenticated = False
+    st.session_state.user = None
+    st.session_state.is_admin = False
+
+
+def check_auth(require_login: bool = True) -> bool:
+    """
+    Ana authentication kontrolü - Login Gate Pattern
+    
+    Her sayfanın en başında çağrılmalı:
+        import components.auth as auth
+        auth.check_auth()
+    
+    Args:
+        require_login: True ise giriş zorunlu, False ise opsiyonel
+    
+    Returns:
+        True: Kullanıcı giriş yapmış
+        False: Kullanıcı giriş yapmamış (require_login=False ise)
+    
+    Not: require_login=True ise ve kullanıcı giriş yapmamışsa,
+         login formu gösterilir ve st.stop() çağrılır.
+    """
+    _init_auth_state()
+    
+    # DURUM A: Kullanıcı giriş yapmış
+    if st.session_state.authenticated:
+        _render_user_sidebar()
+        return True
+    
+    # DURUM B: Kullanıcı giriş yapmamış
+    if require_login:
+        _render_login_form()
+        st.stop()  # Sayfa içeriği gösterilmez
+    
+    return False
 
 
 def is_admin() -> bool:
@@ -34,222 +326,37 @@ def is_admin() -> bool:
     return st.session_state.get("is_admin", False)
 
 
-def simulate_google_login(email: str, name: str) -> Dict[str, Any]:
-    """
-    Google Sign-In simülasyonu
-    Not: Gerçek uygulamada OAuth 2.0 kullanılmalı
-    """
-    # Benzersiz kullanıcı ID oluştur
-    user_id = hashlib.md5(email.encode()).hexdigest()[:20]
-    
-    user_data = {
-        "id": user_id,
-        "email": email,
-        "displayName": name,
-        "photoURL": f"https://ui-avatars.com/api/?name={name.replace(' ', '+')}&background=667eea&color=fff",
-    }
-    
-    return user_data
+def get_current_user() -> Optional[Dict[str, Any]]:
+    """Mevcut kullanıcıyı döndür"""
+    return st.session_state.get("user")
 
 
-def login_user(user_data: Dict[str, Any]) -> bool:
-    """Kullanıcıyı oturuma al"""
-    from services.firebase_service import create_or_update_user, get_user, is_user_admin
-    from services.gamification_service import update_user_streak
-    
-    try:
-        # Firebase'e kaydet/güncelle
-        success = create_or_update_user(user_data["id"], user_data)
-        
-        if success:
-            # Kullanıcı bilgilerini al
-            db_user = get_user(user_data["id"])
-            if db_user:
-                user_data = {**user_data, **db_user}
-            
-            # Session'a kaydet
-            st.session_state.user = user_data
-            st.session_state.is_authenticated = True
-            st.session_state.is_admin = is_user_admin(user_data.get("email", ""))
-            
-            # Streak güncelle
-            update_user_streak(user_data["id"])
-            
-            return True
-    except Exception as e:
-        st.error(f"Giriş hatası: {str(e)}")
-    
-    return False
+def is_authenticated() -> bool:
+    """Kullanıcı giriş yapmış mı?"""
+    return st.session_state.get("authenticated", False)
 
 
-def logout_user():
-    """Kullanıcı çıkışı"""
-    st.session_state.user = None
-    st.session_state.is_authenticated = False
-    st.session_state.is_admin = False
+# Backward compatibility alias
+def is_logged_in() -> bool:
+    """Kullanıcı giriş yapmış mı? (eski isim)"""
+    return is_authenticated()
 
 
-def render_login_button():
-    """Google giriş butonu göster"""
-    init_auth()
-    
-    if is_logged_in():
-        return
-    
-    st.markdown("""
-    <style>
-    .google-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        background: white;
-        color: #333;
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-weight: 500;
-        text-decoration: none;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-    }
-    .google-btn:hover {
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        transform: translateY(-1px);
-    }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    # Demo login formu
-    with st.expander("🔐 Giriş Yap", expanded=False):
-        st.markdown("#### Google ile Giriş Simülasyonu")
-        st.caption("Not: Bu demo moddur. Gerçek uygulamada OAuth 2.0 kullanılır.")
-        
-        with st.form("login_form"):
-            email = st.text_input("E-posta", placeholder="ornek@gmail.com")
-            name = st.text_input("İsim", placeholder="Ad Soyad")
-            
-            submitted = st.form_submit_button("🚀 Giriş Yap", use_container_width=True)
-            
-            if submitted:
-                if email and name:
-                    if "@" in email and "." in email.split("@")[1]:
-                        user_data = simulate_google_login(email, name)
-                        if login_user(user_data):
-                            st.success("✅ Giriş başarılı!")
-                            time.sleep(0.5)
-                            st.rerun()
-                        else:
-                            st.error("Giriş yapılamadı. Lütfen tekrar deneyin.")
-                    else:
-                        st.error("Geçerli bir e-posta adresi girin.")
-                else:
-                    st.error("Tüm alanları doldurun.")
-
-
-def render_user_sidebar():
-    """Sidebar'da kullanıcı bilgilerini göster"""
-    init_auth()
-    
-    st.sidebar.markdown("---")
-    
-    if is_logged_in():
-        user = get_current_user()
-        
-        # Kullanıcı kartı
-        col1, col2 = st.sidebar.columns([1, 3])
-        
-        with col1:
-            st.image(user.get("photoURL", ""), width=50)
-        
-        with col2:
-            st.markdown(f"**{user.get('displayName', 'Kullanıcı')}**")
-            role = "👑 Admin" if is_admin() else "👤 Kullanıcı"
-            st.caption(role)
-        
-        # İstatistikler
-        st.sidebar.markdown("---")
-        
-        col1, col2 = st.sidebar.columns(2)
-        with col1:
-            st.metric("🔥 Streak", user.get("currentStreak", 0))
-        with col2:
-            st.metric("⭐ Puan", user.get("points", 0))
-        
-        col1, col2 = st.sidebar.columns(2)
-        with col1:
-            st.metric("📚 Öğrenilen", user.get("wordsLearned", 0))
-        with col2:
-            st.metric("✍️ Eklenen", user.get("wordsContributed", 0))
-        
-        # Rozetler
-        badges = user.get("badges", [])
-        if badges:
-            from utils.constants import BADGES
-            badge_emojis = " ".join([BADGES.get(b, {}).get("emoji", "") for b in badges])
-            st.sidebar.markdown(f"**Rozetler:** {badge_emojis}")
-        
-        st.sidebar.markdown("---")
-        
-        if st.sidebar.button("🚪 Çıkış Yap", use_container_width=True):
-            logout_user()
-            st.rerun()
-    else:
-        st.sidebar.info("👋 Hoş geldiniz! Tüm özellikleri kullanmak için giriş yapın.")
-        render_login_button()
-
-
-def require_auth(redirect_message: str = "Bu özelliği kullanmak için giriş yapmalısınız.") -> bool:
-    """
-    Sayfa için auth kontrolü
-    
-    Returns:
-        True if authenticated, False otherwise (also shows message)
-    """
-    init_auth()
-    
-    if not is_logged_in():
-        st.warning(f"⚠️ {redirect_message}")
-        st.markdown("---")
-        render_login_button()
-        return False
-    
-    return True
-
-
-def require_admin() -> bool:
+def require_admin_access() -> bool:
     """
     Admin sayfaları için kontrol
     
     Returns:
-        True if admin, False otherwise
+        True: Admin erişimi var
+        False: Erişim yok (hata mesajı gösterilir ve st.stop())
     """
-    if not require_auth("Admin paneline erişmek için giriş yapmalısınız."):
+    if not check_auth():
         return False
     
     if not is_admin():
         st.error("🚫 Bu sayfaya erişim yetkiniz yok.")
         st.info("Bu sayfa sadece admin kullanıcılar içindir.")
+        st.stop()
         return False
     
     return True
-
-
-def get_user_display_name() -> str:
-    """Kullanıcı adını döndür"""
-    user = get_current_user()
-    if user:
-        return user.get("displayName", "Kullanıcı")
-    return "Misafir"
-
-
-def refresh_user_data():
-    """Kullanıcı verilerini yenile"""
-    if not is_logged_in():
-        return
-    
-    from services.firebase_service import get_user
-    
-    user = get_current_user()
-    if user and user.get("id"):
-        db_user = get_user(user["id"])
-        if db_user:
-            st.session_state.user = {**user, **db_user}

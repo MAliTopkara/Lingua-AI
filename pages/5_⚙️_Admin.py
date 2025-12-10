@@ -12,8 +12,11 @@ st.set_page_config(
     layout="wide"
 )
 
-# Imports
-from components.auth import render_user_sidebar, require_admin, get_current_user
+# Auth check - Admin Login Gate
+import components.auth as auth
+auth.require_admin_access()
+
+# Imports (sadece admin ise buraya gelir)
 from services.firebase_service import (
     get_pending_words, 
     get_pending_tricks,
@@ -30,18 +33,11 @@ from utils.helpers import init_session_state, format_date
 # Session state başlat
 init_session_state()
 
-# Sidebar
-render_user_sidebar()
+admin = auth.get_current_user()
 
 # Ana içerik
 st.title("⚙️ Admin Paneli")
 st.markdown("İçerik moderasyonu ve yönetim")
-
-# Admin kontrolü
-if not require_admin():
-    st.stop()
-
-admin = get_current_user()
 
 st.markdown("---")
 

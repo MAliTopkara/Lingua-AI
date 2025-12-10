@@ -16,8 +16,11 @@ st.set_page_config(
     }
 )
 
-# Imports
-from components.auth import render_user_sidebar, is_logged_in, get_current_user
+# Auth check - Login Gate (giriş yoksa burada durur)
+import components.auth as auth
+auth.check_auth()
+
+# Imports (sadece giriş yapılmışsa buraya gelir)
 from services.firebase_service import get_app_stats, get_words
 from utils.helpers import init_session_state, create_word_card_css
 from utils.constants import UI, EXAM_TYPES
@@ -156,9 +159,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Sidebar
-render_user_sidebar()
-
 # Ana başlık
 st.markdown("""
 <div class="main-header">
@@ -174,11 +174,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Hoş geldin mesajı
-if is_logged_in():
-    user = get_current_user()
+user = auth.get_current_user()
+if user:
     st.success(f"👋 Hoş geldin, **{user.get('displayName', 'Kullanıcı')}**! Bugün de çalışmaya hazır mısın?")
-else:
-    st.info("👋 Hoş geldiniz! Tüm özellikleri kullanmak için giriş yapın.")
 
 st.markdown("---")
 

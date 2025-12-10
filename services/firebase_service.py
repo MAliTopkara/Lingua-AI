@@ -69,6 +69,155 @@ def get_user(user_id: str) -> Optional[Dict[str, Any]]:
         return None
 
 
+def signup_user(email: str, password: str, display_name: str) -> Dict[str, Any]:
+    """
+    Yeni kullanıcı kaydı oluştur
+    
+    Returns:
+        {"success": True, "user_id": "..."} veya {"success": False, "error": "..."}
+    """
+    import hashlib
+    
+    db = get_db()
+    if not db:
+        return {"success": False, "error": "Veritabanı bağlantısı kurulamadı"}
+    
+    email = email.strip().lower()
+    
+    try:
+        # Email zaten kayıtlı mı kontrol et
+        existing = db.collection("users").where("email", "==", email).limit(1).stream()
+        if any(True for _ in existing):
+            return {"success": False, "error": "Bu e-posta adresi zaten kayıtlı"}
+        
+        # Kullanıcı ID oluştur
+        user_id = hashlib.md5(email.encode()).hexdigest()[:20]
+        
+        # Şifreyi hashle
+        password_hash = hashlib.sha256(password.encode()).hexdigest()
+        
+        # Kullanıcı verisi
+        user_data = {
+            "email": email,
+            "passwordHash": password_hash,
+            "displayName": display_name,
+            "photoURL": f"https://ui-avatars.com/api/?name={display_name.replace(' ', '+')}&background=667eea&color=fff&size=128",
+            "role": "user",
+            "points": 0,
+            "badges": [],
+            "wordsLearned": 0,
+            "wordsContributed": 0,
+            "quizzesTaken": 0,
+            "highScoreQuizzes": 0,
+            "currentStreak": 0,
+            "longestStreak": 0,
+            "lastActiveDate": None,
+            "createdAt": firestore.SERVER_TIMESTAMP,
+            "updatedAt": firestore.SERVER_TIMESTAMP
+        }
+        
+        # Firestore'a kaydet
+        db.collection("users").document(user_id).set(user_data)
+        
+        return {"success": True, "user_id": user_id}
+        
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+def authenticate_user(email: str, password: str) -> Dict[str, Any]:
+    """
+    Kullanıcı girişini doğrula
+    
+    Returns:
+        {"success": True, "user": {...}} veya {"success": False, "error": "..."}
+    """
+    import hashlib
+    
+    db = get_db()
+    if not db:
+        return {"success": False, "error": "Veritabanı bağlantısı kurulamadı"}
+    
+    email = email.strip().lower()
+    
+    try:
+        # Kullanıcıyı email ile bul
+        users = db.collection("users").where("email", "==", email).limit(1).stream()
+        user_doc = None
+        for doc in users:
+            user_doc = doc
+            break
+        
+        if not user_doc:
+            return {"success": False, "error": "Kullanıcı bulunamadı"}
+        
+        user_data = user_doc.to_dict()
+        user_data["id"] = user_doc.id
+        
+        # Şifre kontrolü
+        password_hash = hashlib.sha256(password.encode()).hexdigest()
+        stored_hash = user_data.get("passwordHash", "")
+        
+        if password_hash != stored_hash:
+            return {"success": False, "error": "Şifre hatalı"}
+        
+        # Şifre hash'ini dönüşten çıkar
+        user_data.pop("passwordHash", None)
+        
+        return {"success": True, "user": user_data}
+        
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+def update_user_name(user_id: str, new_name: str) -> Dict[str, Any]:
+    """
+    Kullanıcı adını güncelle
+    
+    Returns:
+        {"success": True} veya {"success": False, "error": "..."}
+    """
+    db = get_db()
+    if not db:
+        return {"success": False, "error": "Veritabanı bağlantısı kurulamadı"}
+    
+    try:
+        db.collection("users").document(user_id).update({
+            "displayName": new_name.strip(),
+            "photoURL": f"https://ui-avatars.com/api/?name={new_name.replace(' ', '+')}&background=667eea&color=fff&size=128",
+            "updatedAt": firestore.SERVER_TIMESTAMP
+        })
+        return {"success": True}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+def change_user_password(user_id: str, new_password: str) -> Dict[str, Any]:
+    """
+    Kullanıcı şifresini değiştir
+    
+    Returns:
+        {"success": True} veya {"success": False, "error": "..."}
+    """
+    import hashlib
+    
+    db = get_db()
+    if not db:
+        return {"success": False, "error": "Veritabanı bağlantısı kurulamadı"}
+    
+    try:
+        # Yeni şifreyi hashle
+        password_hash = hashlib.sha256(new_password.encode()).hexdigest()
+        
+        db.collection("users").document(user_id).update({
+            "passwordHash": password_hash,
+            "updatedAt": firestore.SERVER_TIMESTAMP
+        })
+        return {"success": True}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
 def create_or_update_user(user_id: str, user_data: Dict[str, Any]) -> bool:
     """Kullanıcı oluştur veya güncelle"""
     db = get_db()

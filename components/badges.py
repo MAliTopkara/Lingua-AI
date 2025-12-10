@@ -230,128 +230,42 @@ def render_badge_mini(badge_id: str):
 
 def render_user_profile_card(user_data: Dict[str, Any]):
     """
-    Kullanıcı profil kartı
+    Kullanıcı profil kartı - Streamlit native componentleri kullanarak
     
     Args:
         user_data: Kullanıcı verileri
     """
-    from utils.helpers import get_level_from_points, format_date
-    
-    st.markdown("""
-    <style>
-    .profile-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 20px;
-        padding: 30px;
-        color: white;
-        margin: 20px 0;
-    }
-    
-    .profile-header {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        margin-bottom: 20px;
-    }
-    
-    .profile-avatar {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        border: 3px solid rgba(255,255,255,0.3);
-    }
-    
-    .profile-name {
-        font-size: 24px;
-        font-weight: 700;
-    }
-    
-    .profile-level {
-        font-size: 14px;
-        opacity: 0.9;
-        margin-top: 4px;
-    }
-    
-    .profile-stats {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 15px;
-        margin-top: 20px;
-    }
-    
-    .profile-stat {
-        background: rgba(255,255,255,0.1);
-        border-radius: 12px;
-        padding: 15px;
-        text-align: center;
-    }
-    
-    .profile-stat-value {
-        font-size: 24px;
-        font-weight: 700;
-    }
-    
-    .profile-stat-label {
-        font-size: 12px;
-        opacity: 0.8;
-        margin-top: 4px;
-    }
-    
-    .profile-level-bar {
-        margin-top: 20px;
-        background: rgba(255,255,255,0.2);
-        border-radius: 10px;
-        height: 10px;
-        overflow: hidden;
-    }
-    
-    .profile-level-progress {
-        height: 100%;
-        background: rgba(255,255,255,0.8);
-        border-radius: 10px;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+    from utils.helpers import get_level_from_points
     
     level_info = get_level_from_points(user_data.get("points", 0))
     
-    st.markdown(f"""
-    <div class="profile-card">
-        <div class="profile-header">
-            <img src="{user_data.get('photoURL', '')}" class="profile-avatar" alt="Avatar">
-            <div>
-                <div class="profile-name">{user_data.get('displayName', 'Kullanıcı')}</div>
-                <div class="profile-level">{level_info['icon']} Seviye {level_info['level']}: {level_info['name']}</div>
-            </div>
-        </div>
-        
-        <div class="profile-stats">
-            <div class="profile-stat">
-                <div class="profile-stat-value">{user_data.get('points', 0)}</div>
-                <div class="profile-stat-label">Puan</div>
-            </div>
-            <div class="profile-stat">
-                <div class="profile-stat-value">{user_data.get('currentStreak', 0)}</div>
-                <div class="profile-stat-label">🔥 Streak</div>
-            </div>
-            <div class="profile-stat">
-                <div class="profile-stat-value">{user_data.get('wordsLearned', 0)}</div>
-                <div class="profile-stat-label">Öğrenilen</div>
-            </div>
-            <div class="profile-stat">
-                <div class="profile-stat-value">{user_data.get('wordsContributed', 0)}</div>
-                <div class="profile-stat-label">Eklenen</div>
-            </div>
-        </div>
-        
-        <div class="profile-level-bar">
-            <div class="profile-level-progress" style="width: {level_info.get('progress', 0)}%;"></div>
-        </div>
-        <div style="text-align: center; margin-top: 8px; font-size: 12px; opacity: 0.8;">
-            Sonraki seviye için {level_info.get('points_to_next', 0)} puan gerekli
+    # Profil başlığı - sade HTML
+    st.markdown(f'''
+    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+        <img src="{user_data.get('photoURL', '')}" style="width: 60px; height: 60px; border-radius: 50%;">
+        <div>
+            <div style="font-size: 20px; font-weight: 700;">{user_data.get('displayName', 'Kullanıcı')}</div>
+            <div style="font-size: 14px; color: #a0aec0;">{level_info['icon']} Seviye {level_info['level']}: {level_info['name']}</div>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    ''', unsafe_allow_html=True)
+    
+    # İstatistikler - Streamlit columns
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric("⭐ Puan", user_data.get('points', 0))
+    with col2:
+        st.metric("🔥 Streak", user_data.get('currentStreak', 0))
+    with col3:
+        st.metric("📚 Öğrenilen", user_data.get('wordsLearned', 0))
+    with col4:
+        st.metric("✍️ Eklenen", user_data.get('wordsContributed', 0))
+    
+    # İlerleme çubuğu
+    progress = level_info.get('progress', 0) / 100
+    st.progress(progress)
+    st.caption(f"Sonraki seviye için {level_info.get('points_to_next', 0)} puan gerekli")
 
 
 def render_leaderboard_row(rank: int, user: Dict[str, Any], is_current_user: bool = False):

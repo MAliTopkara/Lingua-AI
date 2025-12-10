@@ -12,8 +12,11 @@ st.set_page_config(
     layout="wide"
 )
 
-# Imports
-from components.auth import render_user_sidebar, require_auth, get_current_user
+# Auth check - Login Gate
+import components.auth as auth
+auth.check_auth()
+
+# Imports (sadece giriş yapılmışsa)
 from services.firebase_service import add_word, add_trick, check_word_exists
 from services.moderation_service import check_word_submission, check_trick_submission, check_moderation_availability
 from utils.constants import WORD_TYPES, EXAM_TYPES, DIFFICULTY_LEVELS, TRICK_CATEGORIES
@@ -22,18 +25,11 @@ from utils.helpers import init_session_state, validate_word_input, sanitize_inpu
 # Session state başlat
 init_session_state()
 
-# Sidebar
-render_user_sidebar()
+user = auth.get_current_user()
 
 # Ana içerik
 st.title("📝 İçerik Ekle")
 st.markdown("Kelime havuzuna katkıda bulunun!")
-
-# Auth kontrolü
-if not require_auth("İçerik eklemek için giriş yapmalısınız."):
-    st.stop()
-
-user = get_current_user()
 
 # Moderasyon durumu
 if check_moderation_availability():

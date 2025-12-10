@@ -13,8 +13,11 @@ st.set_page_config(
     layout="wide"
 )
 
-# Imports
-from components.auth import render_user_sidebar, is_logged_in, get_current_user
+# Auth check - Login Gate
+import components.auth as auth
+auth.check_auth()
+
+# Imports (sadece giriş yapılmışsa)
 from components.flashcard import render_flashcard, render_word_grid, get_flashcard_styles, render_word_of_the_day
 from services.firebase_service import get_words
 from utils.constants import EXAM_TYPES, DIFFICULTY_LEVELS
@@ -22,9 +25,6 @@ from utils.helpers import init_session_state
 
 # Session state başlat
 init_session_state()
-
-# Sidebar
-render_user_sidebar()
 
 # Ana içerik
 st.title("📚 Kelime Kartları")
