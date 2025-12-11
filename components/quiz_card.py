@@ -331,8 +331,6 @@ def render_quiz_result():
     if not st.session_state.quiz_completed:
         return
     
-    st.markdown(get_quiz_styles(), unsafe_allow_html=True)
-    
     score = st.session_state.quiz_score
     total = len(st.session_state.quiz_questions)
     percentage = (score / total * 100) if total > 0 else 0
@@ -354,27 +352,24 @@ def render_quiz_result():
         grade = "💪 Tekrar Çalış"
         grade_color = "#e74c3c"
     
-    st.markdown(f"""
-    <div style="text-align: center; padding: 40px;">
-        <div style="font-size: 72px; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">%{percentage:.0f}</div>
-        <div style="font-size: 24px; margin-top: 10px; color: {grade_color};">{grade}</div>
-        
-        <div style="display: flex; justify-content: center; gap: 40px; margin-top: 30px;">
-            <div style="text-align: center;">
-                <div style="font-size: 28px; font-weight: 600; color: #667eea;">{score}</div>
-                <div style="font-size: 12px; color: #a0aec0; text-transform: uppercase; letter-spacing: 1px;">Doğru</div>
-            </div>
-            <div style="text-align: center;">
-                <div style="font-size: 28px; font-weight: 600; color: #667eea;">{total - score}</div>
-                <div style="font-size: 12px; color: #a0aec0; text-transform: uppercase; letter-spacing: 1px;">Yanlış</div>
-            </div>
-            <div style="text-align: center;">
-                <div style="font-size: 28px; font-weight: 600; color: #667eea;">{total}</div>
-                <div style="font-size: 12px; color: #a0aec0; text-transform: uppercase; letter-spacing: 1px;">Toplam</div>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    # Sonuç kartı - Native bileşenler
+    st.markdown("---")
+    
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.markdown(f"<h1 style='text-align: center; font-size: 72px; color: #667eea;'>%{percentage:.0f}</h1>", unsafe_allow_html=True)
+        st.markdown(f"<h2 style='text-align: center; color: {grade_color};'>{grade}</h2>", unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    # İstatistikler - st.metric kullan
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("✅ Doğru", score)
+    with col2:
+        st.metric("❌ Yanlış", total - score)
+    with col3:
+        st.metric("📊 Toplam", total)
     
     # Yanlış kelimeler
     wrong_words = st.session_state.quiz_wrong_words

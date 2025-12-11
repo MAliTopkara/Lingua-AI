@@ -274,3 +274,77 @@ def get_ai_hint(word: str, context: str = "") -> Optional[str]:
     
     except Exception as e:
         return None
+
+
+def get_grammar_quiz(topic: str, level: str = "intermediate", num_questions: int = 5) -> Optional[list]:
+    """
+    Gramer konusuna göre AI ile quiz soruları oluştur
+    
+    Args:
+        topic: Gramer konusu (Tenses, Modals, Conditionals, vb.)
+        level: Zorluk seviyesi (beginner, intermediate, advanced)
+        num_questions: Soru sayısı
+    
+    Returns:
+        List of questions with options and answers
+    """
+    client = get_groq_client()
+    if not client:
+        return None
+    
+    try:
+        system_prompt = f"""Sen bir YDS/YÖKDİL sınav uzmanısın. {topic} konusuyla ilgili {level} seviyesinde {num_questions} adet boşluk doldurmalı İngilizce gramer sorusu üret.
+
+KURALLAR:
+1. Her soru YDS formatında olsun
+2. 4 şık olsun (A, B, C, D)
+3. Doğru cevabı ve Türkçe açıklamasını belirt
+4. Cümleler akademik ve resmi dilde olsun
+
+SADECE aşağıdaki JSON formatında yanıt ver:
+{{
+  "questions": [
+    {{
+      "question": "The government _____ new policies to address the economic crisis.",
+      "options": ["A) has implemented", "B) have implemented", "C) implementing", "D) implement"],
+      "correct": "A",
+      "explanation": "Tekil özne 'government' ile tekil fiil 'has' kullanılır. Present Perfect tense."
+    }}
+  ]
+}}"""
+
+        response = client.chat.completions.create(
+            model=GROQ_SETTINGS["model"],
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": f"Konu: {topic}, Seviye: {level}, Soru Sayısı: {num_questions}"}
+            ],
+            max_tokens=2000,
+            temperature=0.7
+        )
+        
+        if response.choices and len(response.choices) > 0:
+            content = response.choices[0].message.content.strip()
+            
+            # JSON parse
+            try:
+                if "```json" in content:
+                    content = content.split("```json")[1].split("```")[0]
+                elif "```" in content:
+                    content = content.split("```")[1].split("```")[0]
+                
+                content = content.strip()
+                result = json.loads(content)
+                
+                if "questions" in result:
+                    return result["questions"]
+                return None
+                
+            except json.JSONDecodeError:
+                return None
+        
+        return None
+    
+    except Exception as e:
+        st.error(f"Gramer quiz hatası: {str(e)}")
+        return None

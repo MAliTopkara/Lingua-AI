@@ -190,7 +190,11 @@ with tab2:
 with tab3:
     st.subheader("👥 Kullanıcı Yönetimi")
     
+    # Import güncelleme
+    from services.firebase_service import update_user_role
+    
     users = get_leaderboard(limit=50)
+    current_user_id = admin.get("id") if admin else None
     
     if not users:
         st.info("Henüz kullanıcı yok.")
@@ -198,7 +202,7 @@ with tab3:
         st.info(f"👥 {len(users)} kullanıcı")
         
         # Tablo başlıkları
-        header_cols = st.columns([0.5, 2, 1.5, 1, 1, 1, 1])
+        header_cols = st.columns([0.5, 2, 1.5, 1, 1, 1.5])
         
         with header_cols[0]:
             st.markdown("**#**")
@@ -209,42 +213,59 @@ with tab3:
         with header_cols[3]:
             st.markdown("**Puan**")
         with header_cols[4]:
-            st.markdown("**Kelime**")
-        with header_cols[5]:
-            st.markdown("**Quiz**")
-        with header_cols[6]:
             st.markdown("**Rol**")
+        with header_cols[5]:
+            st.markdown("**Eylem**")
         
         st.markdown("---")
         
         for i, user in enumerate(users, 1):
-            cols = st.columns([0.5, 2, 1.5, 1, 1, 1, 1])
+            user_id = user.get("id", "")
+            is_self = user_id == current_user_id
+            role = user.get("role", "user")
+            
+            cols = st.columns([0.5, 2, 1.5, 1, 1, 1.5])
             
             with cols[0]:
                 st.write(i)
             
             with cols[1]:
-                st.write(user.get("displayName", "Anonim"))
+                name = user.get("displayName", "Anonim")
+                if is_self:
+                    st.markdown(f"**{name}** 🔹")
+                else:
+                    st.write(name)
             
             with cols[2]:
                 email = user.get("email", "")
-                st.write(email[:20] + "..." if len(email) > 20 else email)
+                st.write(email[:18] + "..." if len(email) > 18 else email)
             
             with cols[3]:
                 st.write(user.get("points", 0))
             
             with cols[4]:
-                st.write(user.get("wordsContributed", 0))
-            
-            with cols[5]:
-                st.write(user.get("quizzesTaken", 0))
-            
-            with cols[6]:
-                role = user.get("role", "user")
                 if role == "admin":
-                    st.markdown("👑 Admin")
+                    st.markdown("👑 **Admin**")
                 else:
                     st.markdown("👤 User")
+            
+            with cols[5]:
+                if is_self:
+                    st.caption("(Sen)")
+                elif role == "user":
+                    if st.button("⬆️ Admin Yap", key=f"promote_{user_id}", type="primary"):
+                        if update_user_role(user_id, "admin"):
+                            st.success(f"✅ {user.get('displayName')} artık admin!")
+                            st.rerun()
+                        else:
+                            st.error("❌ İşlem başarısız!")
+                else:  # admin
+                    if st.button("⬇️ Yetkiyi Al", key=f"demote_{user_id}"):
+                        if update_user_role(user_id, "user"):
+                            st.success(f"✅ {user.get('displayName')} artık normal kullanıcı!")
+                            st.rerun()
+                        else:
+                            st.error("❌ İşlem başarısız!")
 
 # Sistem bilgisi
 st.markdown("---")

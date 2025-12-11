@@ -218,6 +218,32 @@ def change_user_password(user_id: str, new_password: str) -> Dict[str, Any]:
         return {"success": False, "error": str(e)}
 
 
+def update_user_role(user_id: str, new_role: str) -> bool:
+    """
+    Kullanıcı rolünü güncelle (user/admin)
+    
+    Args:
+        user_id: Kullanıcı ID
+        new_role: Yeni rol ('user' veya 'admin')
+    
+    Returns:
+        True başarılı, False başarısız
+    """
+    db = get_db()
+    if not db:
+        return False
+    
+    try:
+        db.collection("users").document(user_id).update({
+            "role": new_role,
+            "updatedAt": firestore.SERVER_TIMESTAMP
+        })
+        return True
+    except Exception as e:
+        st.error(f"Rol güncelleme hatası: {str(e)}")
+        return False
+
+
 def create_or_update_user(user_id: str, user_data: Dict[str, Any]) -> bool:
     """Kullanıcı oluştur veya güncelle"""
     db = get_db()

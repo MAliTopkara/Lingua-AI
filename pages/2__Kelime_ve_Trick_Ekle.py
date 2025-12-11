@@ -1,5 +1,5 @@
 """
-📝 Kelime Ekle Sayfası
+➕ Kelime ve Trick Ekle Sayfası
 Kullanıcıların kelime ve trick ekleyebildiği sayfa
 """
 
@@ -7,8 +7,8 @@ import streamlit as st
 
 # Page config
 st.set_page_config(
-    page_title="Kelime Ekle - Lingua-AI",
-    page_icon="📝",
+    page_title="İçerik Ekle - Lingua-AI",
+    page_icon="➕",
     layout="wide"
 )
 
@@ -28,8 +28,8 @@ init_session_state()
 user = auth.get_current_user()
 
 # Ana içerik
-st.title("📝 İçerik Ekle")
-st.markdown("Kelime havuzuna katkıda bulunun!")
+st.title("➕ Kelime veya Trick Ekle")
+st.markdown("Kelime havuzuna ve bilgi bankasına katkıda bulunun!")
 
 # Moderasyon durumu
 if check_moderation_availability():
